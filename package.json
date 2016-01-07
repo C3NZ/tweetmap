@@ -1,0 +1,25 @@
+{
+  "name": "tweetmap",
+  "version": "0.0.1",
+  "description": "",
+  "main": "app.js",
+  "dependencies": {
+    "express": "^4.13.3",
+    "socket.io": "^1.4.0",
+    "twitter": "^1.2.5"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/C3NZ/tweetmap.git"
+  },
+  "author": "",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/C3NZ/tweetmap/issues"
+  },
+  "homepage": "https://github.com/C3NZ/tweetmap#readme"
+}

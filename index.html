@@ -1,0 +1,54 @@
+<html>
+<head>
+<script src="/socket.io/socket.io.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+<script>
+  var socket = io();
+  var map;
+  var geocoder = new google.maps.Geocoder();
+  $(function() {
+    map = new google.maps.Map(document.getElementById('map'), {
+      center: {lat: 39.8282, lng: -98.5795},
+      zoom: 4
+    });
+    socket.on('new_tweet', function(data) {
+      console.log(data.text);
+      geocoder.geocode({'address': data.place}, function(results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+          var image = {
+            url: data.twitpic,
+            size: new google.maps.Size(64, 64),
+            origin: new google.maps.Point(0, 0),
+            anchor: new google.maps.Point(0, 64)
+          };
+          var marker = new google.maps.Marker({
+            position: results[0].geometry.location,
+            map: map,
+            title: data.text,
+            icon: image,
+            animation: google.maps.Animation.DROP
+          });
+          var infowindow = new google.maps.InfoWindow({
+            content: "<img src=\"" + data.twitpic.replace('_normal', '') + "\" width=256 height=256 style=\"float: left; margin-right: 10px;\"  /> " + data.text
+          });
+          marker.addListener('click', function() {
+            infowindow.open(map, marker);
+          });
+        }
+      });
+    });
+  });
+</script>
+<style type="text/css">
+html, body { height: 100%; margin: 0; padding: 0; }
+#map { height: 100%; }
+</style>
+</head>
+<body>
+<div id="map">
+
+</div>
+
+</body>
+</html>
