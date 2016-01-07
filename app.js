@@ -11,15 +11,28 @@ var client = new Twitter({
   access_token_secret: config.access_token_secret
 });
 
-client.stream('statuses/filter', {track: '#PCAs'}, function(stream) {
-  stream.on('data', function(tweet) {
-    if(tweet.text === null || tweet.text === undefined) return;
-    if(tweet.place === null || tweet.place === undefined) return;
-    io.emit('new_tweet', { text: tweet.text, twitpic: tweet.user.profile_image_url, place: tweet.place.full_name});
-  });
+var gstream;
 
-  stream.on('error', function(error) {
-    throw error;
+function start_streaming(query) {
+  client.stream('statuses/filter', {track: query}, function(stream) {
+    gstream = stream;
+    stream.on('data', function(tweet) {
+      if(gstream != stream) return;
+      if(tweet.text === null || tweet.text === undefined) return;
+      if(tweet.place === null || tweet.place === undefined) return;
+      io.emit('new_tweet', { text: tweet.text, twitpic: tweet.user.profile_image_url, place: tweet.place.full_name});
+    });
+
+    stream.on('error', function(error) {
+      throw error;
+    });
+  });
+}
+
+
+io.on('connection', function(socket){
+  socket.on('query', function(query){
+    start_streaming(query);
   });
 });
 
