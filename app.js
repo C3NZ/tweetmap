@@ -16,11 +16,13 @@ var gstream;
 function start_streaming(query) {
   client.stream('statuses/filter', {track: query}, function(stream) {
     gstream = stream;
+
     stream.on('data', function(tweet) {
       if(gstream != stream) return;
       if(tweet.text === null || tweet.text === undefined) return;
       if(tweet.place === null || tweet.place === undefined) return;
-      io.emit('new_tweet', { text: tweet.text, twitpic: tweet.user.profile_image_url, place: tweet.place.full_name});
+      console.log(tweet);
+      io.emit('new_tweet', { name: tweet.user.screen_name, text: tweet.text, twitpic: tweet.user.profile_image_url, place: tweet.place.full_name});
     });
 
     stream.on('error', function(error) {
