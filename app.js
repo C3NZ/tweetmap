@@ -1,4 +1,5 @@
-var app = require('express')();
+var express = require('express');
+var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var Twitter = require('twitter');
@@ -22,7 +23,8 @@ function start_streaming(query) {
       if(tweet.text === null || tweet.text === undefined) return;
       if(tweet.place === null || tweet.place === undefined) return;
       console.log(tweet);
-      io.emit('new_tweet', { name: tweet.user.screen_name, text: tweet.text, twitpic: tweet.user.profile_image_url, place: tweet.place.full_name});
+      io.emit('new_tweet', { name: tweet.user.screen_name, text: tweet.text, twitpic: tweet.user.profile_image_url,
+                             place: tweet.place.full_name, following: tweet.user.friends_count, followers:tweet.user.followers_count});
     });
 
     stream.on('error', function(error) {
@@ -31,16 +33,20 @@ function start_streaming(query) {
   });
 }
 
+var newquery;
 
 io.on('connection', function(socket){
   socket.on('query', function(query){
-    start_streaming(query);
+    if(newquery !== query){
+        start_streaming(query);
+        newquery = query;
+        console.log('new query made');
+    }
+
   });
 });
 
-app.get('/', function(req, res){
-  res.sendfile('index.html');
-});
+app.use("/", express.static(__dirname + '/public'));
 
 http.listen(3000, function(){
   console.log('listening on *:3000');
