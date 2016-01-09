@@ -39,24 +39,25 @@
             map: map,
             backgroundColor: '#4099FF',
             borderColor:'#4099FF',
-            borderRadius: 4,
-            padding: 10,
-            maxWidth: 768,
-            maxHeight: 768,
+
+            maxWidth: 512,
+            minWidth: 512,
+            maxHeight: 276,
+            minHeight: 276,
             content: "<div class=\"row\" id=\"space\">" +
             "<div class=\"col-md-6\"> " +
-            "<img src=\"" + data.twitpic.replace('_normal', '') + "\"width=192 height=192\" /> " +
+            "<img src=\"" + data.twitpic.replace('_normal', '') + "\"width=256 height=256\" /> " +
             "</div>" +
             "<div class=\"col-md-6\" id=\"textspace\">" +
             "<h4 id=\"username\">" +"@"+ data.name +"</h4>"+
             data.text + "<br>" +
             "<div class=\"col-md-6\">" +
-            data.following  + "<br>"+
-            "<h5>Following<h5>" +
+            "<h5 id=\"social\">Following<h5>" +
+            data.following  +
             "</div>" +
             "<div class=\"col-md-6\">" +
-            data.followers + "<br>"+
-            "<h5>Followers<h5>" +
+            "<h5 id=\"social\">Followers<h5>"+
+            data.followers +
             "</div>" +
             "</div>" +
             "</div>"
@@ -82,7 +83,7 @@
 html, body { height: 100%; margin: 0; padding: 0;}
 #map { height: 800px; }
 #space {background-color: #4099FF; overflow: hidden;}
-
+#social {font-style: bold;}
 #username {font-style: bold; color: black;}
 #textspace {text-align: center;}
 </style>
