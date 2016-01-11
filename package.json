@@ -17,7 +17,7 @@
     "url": "git+https://github.com/C3NZ/tweetmap.git"
   },
   "author": "",
-  "license": "UNLICENSED",
+  "license": "Apache 2.0",
   "bugs": {
     "url": "https://github.com/C3NZ/tweetmap/issues"
   },
