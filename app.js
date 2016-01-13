@@ -24,7 +24,8 @@ function start_streaming(query) {
       if(tweet.place === null || tweet.place === undefined) return;
       console.log(tweet);
       io.emit('new_tweet', { name: tweet.user.screen_name, text: tweet.text, twitpic: tweet.user.profile_image_url,
-                             place: tweet.place.full_name, following: tweet.user.friends_count, followers:tweet.user.followers_count});
+                             place: tweet.place.full_name, following: tweet.user.friends_count, followers:tweet.user.followers_count
+                           });
     });
 
     stream.on('error', function(error) {
@@ -42,7 +43,7 @@ io.on('connection', function(socket){
         newquery = query;
         console.log('new query made');
     }
-
+    
   });
 });
 
